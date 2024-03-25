@@ -8,12 +8,60 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.News;
+import model.User;
 
 public class Controller implements InterfaceController{
 	
 	private Connection conn;
 	private PreparedStatement stmt;
 	private final String SHOW_NEWS = "SELECT * FROM NOTICIA";
+	final String SELECT_USER = "SELECT * FROM users WHERE username=? AND password=?";
+	
+	public boolean logIn(String u, String p) {
+		ResultSet rs = null;
+		User us = null;
+
+		// Abrimos la conexión
+		this.openConnection();
+		
+		try {
+			stmt = conn.prepareStatement(SELECT_USER);
+
+			// Cargamos los parámetros
+			stmt.setString(1, u);
+			stmt.setString(2, p);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				us = new User();
+				us.setUsername(u);
+				us.setPassword(p);
+				return true;
+			} else {
+				us = null;
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
 	
 	@Override
 	public ArrayList<News> showNews() {

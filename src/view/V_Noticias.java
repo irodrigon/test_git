@@ -1,13 +1,10 @@
 package view;
 
-import java.awt.EventQueue;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +28,7 @@ import controller.Controller;
 import model.News;
 import java.awt.Font;
 
-public class V1 extends JFrame implements ActionListener {
+public class V_Noticias extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -48,12 +45,12 @@ public class V1 extends JFrame implements ActionListener {
 	private Image endImage;
 	private ImageIcon img;
 	private News n;
-	private int clicks;
 
 	/**
 	 * Create the frame.
 	 */
-	public V1(Controller l) {
+	public V_Noticias(Controller l) {
+		this.l = l;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(700, 20, 1000, 1000);
 		contentPane = new JPanel();
@@ -90,7 +87,7 @@ public class V1 extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(235, 843, 550, 57);
 		contentPane.add(lblNewLabel_3);
 
-		ns = l.showNews();
+		ns = this.l.showNews();
 		it = ns.listIterator();
 		n = it.next();
 		
@@ -123,27 +120,36 @@ public class V1 extends JFrame implements ActionListener {
 		lblNewLabel_1.setIcon((Icon) img);
 		lblNewLabel_2.setText(String.valueOf(n.getTitulo()));
 		lblNewLabel_3.setText(n.getDescripcion_noticia());
-		// btnPrevious.setEnabled(false);
+		btnPrevious.setEnabled(false);
 		// btnNext.setEnabled(false);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(it.nextIndex() == ns.size()-1){
+		if(it.nextIndex() >= ns.size() && !it.hasNext()){
 			btnNext.setEnabled(false);
 		}else {
 			btnNext.setEnabled(true);
 		}
 		
-		if(it.previousIndex() == 0) {
-			btnPrevious.setEnabled(false);
-		}else {
-			btnPrevious.setEnabled(true);
+		if(it.nextIndex() == ns.size()) {
+			it.previous();
 		}
+		
+		if(it.previousIndex() == -1) {
+			it.next();
+		}
+		
+		if(it.previousIndex() == -1 && !it.hasPrevious()){
+			btnNext.setEnabled(false);
+		}else {
+			btnNext.setEnabled(true);
+		}
+		
 		Object o = e.getSource();
 		if (o == btnNext) {
 			if (it.hasNext()) {
+				btnPrevious.setEnabled(true);
 				n = it.next();
 				lblNewLabel.setText(String.valueOf(n.getId_new()));
 				Blob image = (Blob) n.getImageNews();
@@ -173,6 +179,7 @@ public class V1 extends JFrame implements ActionListener {
 				lblNewLabel_3.setText(n.getDescripcion_noticia());
 			}
 		} else if (o == btnPrevious) {
+		
 			if (it.hasPrevious()) {
 				n = it.previous();
 				lblNewLabel.setText(String.valueOf(n.getId_new()));
