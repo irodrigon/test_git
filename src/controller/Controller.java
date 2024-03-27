@@ -1,44 +1,60 @@
 package controller;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.News;
+import model.Policeman;
 import model.User;
 
-public class Controller implements InterfaceController{
-	
+public class Controller implements InterfaceController {
+
 	private Connection conn;
 	private PreparedStatement stmt;
 	private final String SHOW_NEWS = "SELECT * FROM NOTICIA";
-	final String SELECT_USER = "SELECT * FROM users WHERE username=? AND password=?";
-	
-	public boolean logIn(String u, String p) {
+	private final String RETURN_MAX_USER = "SELECT * FROM USERS WHERE ID_USER = (SELECT MAX(ID_USER) FROM USERS)";
+	private final String SELECT_USER = "SELECT * FROM users WHERE username=? AND password=?";
+	private final String IDENTIFY_POLICEMAN = "SELECT * FROM POLICIA WHERE ID_user= ?";
+	private final String INSERT_USER = "INSERT INTO USERS VALUES(?,?,?)";
+	private final String INSERT_POLICEMAN = "INSERT INTO POLICIA VALUES(?,?,?,?,?,?,?)";
+	private final String RETURN_MAX_POLICEMAN = "SELECT * FROM POLICIA WHERE ID_policia = (SELECT MAX(ID_policia) FROM policia)";
+	private final String DELETE_POLICEMAN = "DELETE FROM POLICIA WHERE dni=?";
+	private final String DELETE_USER = "DELETE FROM USERS WHERE ID_user=?";
+	private final String RELOCATEUP = "UPDATE USERS SET ID_user = ID_user-1 where ID_user > ? AND NOT ID_user = 1";
+	private final String RELOCATEDOWN = "UPDATE USERS SET ID_user = ID_user+1 where ID_user < ? AND NOT ID_user = 1";
+	private final String RETURN_USER_BY_NAME = "SELECT * FROM USERS WHERE username = ?";
+	private final String RETURN_USER_BY_ID = "SELECT * FROM USERS WHERE id_user = ?";
+	private final String UPDATE_USER = "UPDATE USERS SET username = ?,password = ? WHERE ID_USER = ?";
+	private final String UPDATE_POLICEMAN ="UPDATE POLICIA SET foto_policia=?,nombre_policia = ?,apellido_policia = ?,rango = ? WHERE id_user = ?";
+
+	@Override
+	public Policeman returnMaxPoliceman() {
 		ResultSet rs = null;
-		User us = null;
+		Policeman pol = null;
 
 		// Abrimos la conexión
 		this.openConnection();
-		
-		try {
-			stmt = conn.prepareStatement(SELECT_USER);
 
-			// Cargamos los parámetros
-			stmt.setString(1, u);
-			stmt.setString(2, p);
+		try {
+			stmt = conn.prepareStatement(RETURN_MAX_POLICEMAN);
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
-				us = new User();
-				us.setUsername(u);
-				us.setPassword(p);
-				return true;
-			} else {
-				us = null;
+				pol = new Policeman();
+				pol.setId_policia(rs.getInt("id_policia"));
+				pol.setFoto_policia(rs.getBlob("foto_policia"));
+				pol.setDni(rs.getString("dni"));
+				pol.setNombre_policia(rs.getString("nombre_policia"));
+				pol.setApellido_policia(rs.getString("apellido_policia"));
+				pol.setRango(rs.getString("rango"));
+				pol.setId_user(rs.getInt("id_user"));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error de SQL");
@@ -60,22 +76,227 @@ public class Controller implements InterfaceController{
 			}
 		}
 
-		return false;
+		return pol;
 	}
-	
+
+	@Override
+	public User returnMaxUser() {
+		ResultSet rs = null;
+		User us = null;
+
+		// Abrimos la conexión
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(RETURN_MAX_USER);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				us = new User();
+				us.setUser_id(rs.getInt("ID_user"));
+				us.setUsername(rs.getString("username"));
+				us.setPassword(rs.getString("password"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return us;
+	}
+
+	@Override
+	public boolean insertPoliceman(int id_policia, Blob foto_policia, String dni, String nombre_policia,
+			String apellido_policia, String rango, int id_user) {
+
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(INSERT_POLICEMAN);
+
+			stmt.setInt(1, id_policia);
+			stmt.setBlob(2, foto_policia);
+			stmt.setString(3, dni);
+			stmt.setString(4, nombre_policia);
+			stmt.setString(5, apellido_policia);
+			stmt.setString(6, rango);
+			stmt.setInt(7, id_user);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean insertUser(int id, String u, String p) {
+
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(INSERT_USER);
+
+			stmt.setInt(1, id);
+			stmt.setString(2, u);
+			stmt.setString(3, p);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	public Policeman showPoliceman(int id_user) {
+		ResultSet rs = null;
+		Policeman pol = null;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(IDENTIFY_POLICEMAN);
+
+			// Cargamos los parámetros
+			stmt.setInt(1, id_user);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				pol = new Policeman();
+				pol.setId_policia(rs.getInt("ID_policia"));
+				pol.setFoto_policia(rs.getBlob("foto_policia"));
+				pol.setDni(rs.getString("dni"));
+				pol.setNombre_policia(rs.getString("nombre_policia"));
+				pol.setApellido_policia(rs.getString("apellido_policia"));
+				pol.setRango(rs.getString("rango"));
+				pol.setId_user(rs.getInt("ID_user"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return pol;
+	}
+
+	@Override
+	public User logIn(String u, String p) {
+		ResultSet rs = null;
+		User us = null;
+
+		// Abrimos la conexión
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(SELECT_USER);
+
+			// Cargamos los parámetros
+			stmt.setString(1, u);
+			stmt.setString(2, p);
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				us = new User();
+				us.setUser_id(rs.getInt("ID_user"));
+				us.setUsername(u);
+				us.setPassword(p);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return us;
+	}
+
 	@Override
 	public ArrayList<News> showNews() {
 		ResultSet rs = null;
 		News n = null;
 		ArrayList<News> ns = new ArrayList<News>();
-		
+
 		this.openConnection();
 		try {
 			stmt = conn.prepareStatement(SHOW_NEWS);
 
 			rs = stmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				n = new News();
 				n.setId_new(rs.getInt("ID_noticia"));
 				n.setImageNews(rs.getBlob("foto_noticia"));
@@ -103,27 +324,307 @@ public class Controller implements InterfaceController{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return ns;
 	}
-	
-	private void openConnection(){
-		 try {
-		  String url ="jdbc:mysql://localhost:3306/policias?serverTimezone=Europe/Madrid&useSSL=false";
-		  conn =  DriverManager.getConnection(url,"root","abcd*1234");
+
+	private void openConnection() {
+		try {
+			String url = "jdbc:mysql://localhost:3306/policias?serverTimezone=Europe/Madrid&useSSL=false";
+			conn = DriverManager.getConnection(url, "root", "abcd*1234");
 
 		} catch (SQLException e) {
 			System.out.println("Error al intentar abrir la BD");
-		 }	
 		}
+	}
 
 	private void closeConnection() throws SQLException {
 		System.out.println("Conexion Cerrada.");
 		if (stmt != null)
 			stmt.close();
-		if (conn!= null)
+		if (conn != null)
 			conn.close();
 		System.out.println("------------------------");
+	}
+
+	@Override
+	public boolean deleteUser(int id) {
+
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(DELETE_USER);
+
+			stmt.setInt(1, id);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean deletePoliceman(String dni) {
+		// TODO Auto-generated method stub
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(DELETE_POLICEMAN);
+
+			stmt.setString(1, dni);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean relocateUp(int id) {
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(RELOCATEUP);
+
+			stmt.setInt(1, id);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean relocateDown(int id) {
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(RELOCATEDOWN);
+
+			stmt.setInt(1, id);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean returnUserByName(String name) {
+		ResultSet rs = null;
+		User user = null;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(RETURN_USER_BY_NAME);
+
+			// Cargamos los parámetros
+			stmt.setString(1, name);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				user = new User();
+				user.setUser_id(rs.getInt("id_user"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				return true;
+			} else {
+				user = null;
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public User returnUserById(int id) {
+		ResultSet rs = null;
+		User user = null;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(RETURN_USER_BY_ID);
+
+			// Cargamos los parámetros
+			stmt.setInt(1, id);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				user = new User();
+				user.setUser_id(rs.getInt("id_user"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return user;
+	}
+
+	@Override
+	public boolean updateUser(String u, String p, int id) {
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(UPDATE_USER);
+
+			stmt.setString(1, u);
+			stmt.setString(2, p);
+			stmt.setInt(3, id);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
+	}
+
+	@Override
+	public boolean updatePoliceman(Blob foto_policia,String n, String a, String r, int id_user) {
+		boolean cambios = false;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(UPDATE_POLICEMAN);
+			
+			stmt.setBlob(1, foto_policia);
+			stmt.setString(2, n);
+			stmt.setString(3, a);
+			stmt.setString(4, r);
+			stmt.setInt(5, id_user);
+
+			if (stmt.executeUpdate() == 1)
+				cambios = true;
+
+		} catch (SQLException e1) {
+			System.out.println("Error de SQL");
+			e1.printStackTrace();
+		} finally {
+
+			try {
+				this.closeConnection();
+			} catch (SQLException e1) {
+				System.out.println("Error en el cierre de la BD");
+				e1.printStackTrace();
+			}
+		}
+
+		return cambios;
 	}
 
 }

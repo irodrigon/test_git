@@ -35,7 +35,7 @@ public class V_Noticias extends JFrame implements ActionListener {
 	private Controller l;
 	private JButton btnPrevious;
 	private JButton btnNext;
-	private JLabel lblNewLabel;
+	private JButton btnBack;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
@@ -45,6 +45,7 @@ public class V_Noticias extends JFrame implements ActionListener {
 	private Image endImage;
 	private ImageIcon img;
 	private News n;
+	private JButton btnQuit;
 
 	/**
 	 * Create the frame.
@@ -52,7 +53,7 @@ public class V_Noticias extends JFrame implements ActionListener {
 	public V_Noticias(Controller l) {
 		this.l = l;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(700, 20, 1000, 1000);
+		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -61,30 +62,29 @@ public class V_Noticias extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 		btnPrevious = new JButton("Anterior");
+		btnPrevious.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
-		btnPrevious.setBounds(48, 897, 89, 23);
+		btnPrevious.setBounds(48, 831, 142, 23);
 		contentPane.add(btnPrevious);
 
 		btnNext = new JButton("Siguiente");
+		btnNext.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
-		btnNext.setBounds(852, 897, 89, 23);
+		btnNext.setBounds(807, 831, 134, 23);
 		contentPane.add(btnNext);
 
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(235, 750, 46, 14);
-		contentPane.add(lblNewLabel);
-
 		lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(48, 11, 893, 649);
+		lblNewLabel_1.setBounds(48, 26, 893, 649);
 		contentPane.add(lblNewLabel_1);
 
 		lblNewLabel_2 = new JLabel("", SwingConstants.CENTER);
-		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-		lblNewLabel_2.setBounds(235, 775, 550, 43);
+		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblNewLabel_2.setBounds(235, 686, 550, 43);
 		contentPane.add(lblNewLabel_2);
 
 		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setBounds(235, 843, 550, 57);
+		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblNewLabel_3.setBounds(223, 750, 550, 57);
 		contentPane.add(lblNewLabel_3);
 
 		ns = this.l.showNews();
@@ -93,8 +93,6 @@ public class V_Noticias extends JFrame implements ActionListener {
 		
 		btnPrevious.addActionListener(this);
 		btnNext.addActionListener(this);
-
-		lblNewLabel.setText(String.valueOf(n.getID_administrador()));
 		Blob image = (Blob) n.getImageNews();
 		InputStream is;
 		try {
@@ -121,7 +119,19 @@ public class V_Noticias extends JFrame implements ActionListener {
 		lblNewLabel_2.setText(String.valueOf(n.getTitulo()));
 		lblNewLabel_3.setText(n.getDescripcion_noticia());
 		btnPrevious.setEnabled(false);
+		
+		btnBack = new JButton("Atrás");
+		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		btnBack.setBounds(466, 831, 89, 23);
+		contentPane.add(btnBack);
+		
+		btnQuit = new JButton("Salir");
+		btnQuit.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		btnQuit.setBounds(466, 900, 89, 23);
+		contentPane.add(btnQuit);
 		// btnNext.setEnabled(false);
+		btnBack.addActionListener(this);
+		btnQuit.addActionListener(this);
 	}
 
 	@Override
@@ -151,7 +161,6 @@ public class V_Noticias extends JFrame implements ActionListener {
 			if (it.hasNext()) {
 				btnPrevious.setEnabled(true);
 				n = it.next();
-				lblNewLabel.setText(String.valueOf(n.getId_new()));
 				Blob image = (Blob) n.getImageNews();
 				InputStream is;
 				try {
@@ -182,7 +191,6 @@ public class V_Noticias extends JFrame implements ActionListener {
 		
 			if (it.hasPrevious()) {
 				n = it.previous();
-				lblNewLabel.setText(String.valueOf(n.getId_new()));
 				Blob image = (Blob) n.getImageNews();
 				InputStream is;
 				try {
@@ -209,7 +217,17 @@ public class V_Noticias extends JFrame implements ActionListener {
 				lblNewLabel_3.setText(n.getDescripcion_noticia());
 			}
 		}
+		
+		if(o == btnQuit) {
+			this.dispose();
+		}
+		
+		if(o == btnBack){
+			V_Users vU = new V_Users(l);
+			vU.setVisible(true);
+			this.dispose();
+		}
 
 	}
-
 }
+
