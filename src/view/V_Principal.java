@@ -23,6 +23,7 @@ import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.SystemColor;
 
@@ -35,8 +36,6 @@ public class V_Principal extends JFrame implements ActionListener{
 	private JButton btnEnter;
 	private JButton btnQuit;
 	private JLabel lblNewLabel;
-	private JLabel lblEntrar;
-	private JLabel lblSalir;
 	private JLabel lblNewLabel_1;
 	
 
@@ -44,6 +43,16 @@ public class V_Principal extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public V_Principal(Controller l) {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		setBackground(new Color(105,105,105));
 		setUndecorated(true);
 		setBounds(640,70,700,800);
@@ -65,19 +74,21 @@ public class V_Principal extends JFrame implements ActionListener{
 		
 		contentPane.add(lblPhotoEnter);
 		
-		btnEnter = new JButton("");
-		btnEnter.setBackground(new Color(138, 138, 138));
+		btnEnter = new JButton("Entrar");
+		btnEnter.setForeground(new Color(255, 255, 255));
+		btnEnter.setBackground(new Color(116, 116, 116));
 		btnEnter.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnEnter.setBounds(167, 678, 89, 23);
-		btnEnter.setBorder(new RoundedBorder(20));
+		btnEnter.setBorder(new RoundedBorder(10));
 		contentPane.add(btnEnter);
 		btnEnter.addActionListener(this);
 		
-		btnQuit = new JButton("");
-		btnQuit.setBackground(new Color(138, 138, 138));
+		btnQuit = new JButton("Salir");
+		btnQuit.setForeground(new Color(255, 255, 255));
+		btnQuit.setBackground(new Color(116, 116, 116));
 		btnQuit.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnQuit.setBounds(442, 678, 96, 23);
-		btnQuit.setBorder(new RoundedBorder(20));
+		btnQuit.setBorder(new RoundedBorder(10));
 		contentPane.add(btnQuit);
 		
 		lblNewLabel = new JLabel("BIENVENIDO, AGENTE.",SwingConstants.CENTER);
@@ -85,18 +96,6 @@ public class V_Principal extends JFrame implements ActionListener{
 		lblNewLabel.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNewLabel.setBounds(112, 108, 474, 41);
 		contentPane.add(lblNewLabel);
-		
-		lblEntrar = new JLabel("ENTRAR", SwingConstants.CENTER);
-		lblEntrar.setForeground(Color.WHITE);
-		lblEntrar.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblEntrar.setBounds(140, 640, 144, 41);
-		contentPane.add(lblEntrar);
-		
-		lblSalir = new JLabel("SALIR", SwingConstants.CENTER);
-		lblSalir.setForeground(Color.WHITE);
-		lblSalir.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblSalir.setBounds(420, 640, 144, 41);
-		contentPane.add(lblSalir);
 		
 		lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));

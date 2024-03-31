@@ -29,6 +29,8 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Toolkit;
 
 public class V_Policemen extends JFrame implements ActionListener {
 
@@ -52,11 +54,14 @@ public class V_Policemen extends JFrame implements ActionListener {
 	private ArrayList<Busca> busquedas;
 	private int count;
 	private int id_policia;
+	private JLabel lblNewLabel_1_1;
 
 	/**
 	 * Create the frame.
 	 */
 	public V_Policemen(Controller l, int id_user) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(V_Policemen.class.getResource("/photos/pixelart.png")));
+		setUndecorated(true);
 		this.l = l;
 		pol = l.showPoliceman(id_user);
 		busquedas = l.weaponsAssigned(pol.getId_policia());
@@ -73,17 +78,21 @@ public class V_Policemen extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new RoundedBorder(5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		btnModifyData = new JButton("Modificar mis datos");
+		btnModifyData.setForeground(new Color(255, 255, 255));
+		btnModifyData.setBackground(new Color(116, 116, 116));
 		btnModifyData.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnModifyData.setBounds(10, 816, 228, 23);
 		contentPane.add(btnModifyData);
 
 		btnChooseWeapons = new JButton("Elegir arsenal");
+		btnChooseWeapons.setForeground(new Color(255, 255, 255));
+		btnChooseWeapons.setBackground(new Color(116, 116, 116));
 		btnChooseWeapons.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnChooseWeapons.setBounds(753, 816, 228, 23);
 		contentPane.add(btnChooseWeapons);
@@ -117,27 +126,34 @@ public class V_Policemen extends JFrame implements ActionListener {
 		lblFoto_policia.setIcon((Icon) img);
 
 		JLabel lblNombre_policia = new JLabel("<dynamic>");
-		lblNombre_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblNombre_policia.setForeground(new Color(255, 255, 255));
+		lblNombre_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNombre_policia.setBounds(32, 629, 359, 43);
 		contentPane.add(lblNombre_policia);
 
 		btnBack = new JButton("Atrás");
+		btnBack.setForeground(new Color(255, 255, 255));
+		btnBack.setBackground(new Color(116, 116, 116));
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnBack.setBounds(453, 927, 89, 23);
 		contentPane.add(btnBack);
 
 		btnShowSuspects = new JButton("Ver criminales asignados");
+		btnShowSuspects.setForeground(new Color(255, 255, 255));
+		btnShowSuspects.setBackground(new Color(116, 116, 116));
 		btnShowSuspects.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnShowSuspects.setBounds(259, 816, 228, 23);
 		contentPane.add(btnShowSuspects);
 
 		JLabel lblApellido_policia = new JLabel("<dynamic>");
-		lblApellido_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblApellido_policia.setForeground(new Color(255, 255, 255));
+		lblApellido_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblApellido_policia.setBounds(32, 666, 359, 43);
 		contentPane.add(lblApellido_policia);
 
 		JLabel lblRango = new JLabel("<dynamic>");
-		lblRango.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblRango.setForeground(new Color(255, 255, 255));
+		lblRango.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblRango.setBounds(32, 700, 359, 43);
 		contentPane.add(lblRango);
 		lblNombre_policia.setText("Nombre: " + pol.getNombre_policia());
@@ -145,30 +161,44 @@ public class V_Policemen extends JFrame implements ActionListener {
 		lblRango.setText("Rango: " + pol.getRango());
 
 		JLabel lblBienvenida = new JLabel("", SwingConstants.CENTER);
-		lblBienvenida.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblBienvenida.setForeground(new Color(255, 255, 255));
+		lblBienvenida.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
 		lblBienvenida.setBounds(77, 0, 848, 35);
 		contentPane.add(lblBienvenida);
 		lblBienvenida.setText("Bienvenido " + pol.getNombre_policia());
 
 		btnShowWeapons = new JButton("Ver mi arsenal");
+		btnShowWeapons.setForeground(new Color(255, 255, 255));
+		btnShowWeapons.setBackground(new Color(116, 116, 116));
 		btnShowWeapons.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnShowWeapons.setBounds(508, 816, 228, 23);
 		contentPane.add(btnShowWeapons);
 
 		JLabel lblDni = new JLabel("");
-		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblDni.setForeground(new Color(255, 255, 255));
+		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblDni.setBounds(32, 587, 359, 43);
 		contentPane.add(lblDni);
 		lblDni.setText("DNI: " + pol.getDni());
 
 		btnDeleteData = new JButton("Eliminar mi perfil");
+		btnDeleteData.setForeground(new Color(255, 255, 255));
+		btnDeleteData.setBackground(new Color(116, 116, 116));
 		btnDeleteData.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnDeleteData.setBounds(382, 860, 228, 23);
 		contentPane.add(btnDeleteData);
 
 		lblChanges = new JLabel("", SwingConstants.CENTER);
-		lblChanges.setBounds(163, 754, 600, 22);
+		lblChanges.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblChanges.setForeground(new Color(255, 255, 255));
+		lblChanges.setBounds(163, 741, 706, 35);
 		contentPane.add(lblChanges);
+		
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 
 		btnBack.addActionListener(this);
 		btnDeleteData.addActionListener(this);

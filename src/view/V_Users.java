@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -43,11 +44,7 @@ public class V_Users extends JFrame implements ActionListener {
 	private JButton btnCreate;
 	private JToggleButton tglbtnSee;
 	private int id_user;
-	private JLabel lblNewLabel;
-	private JLabel lblEntrar;
-	private JLabel lblNoticias;
-	private JLabel lblSalir;
-	private JLabel lblCrearCuentaDe;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Create the frame.
@@ -85,88 +82,70 @@ public class V_Users extends JFrame implements ActionListener {
 		lblPassword.setBounds(120, 189, 105, 37);
 		contentPane.add(lblPassword);
 
-		btnEnter = new JButton("");
-		btnEnter.setBackground(new Color(138, 138, 138));
+		btnEnter = new JButton("Entrar");
+		btnEnter.setForeground(new Color(255, 255, 255));
+		btnEnter.setBackground(new Color(116, 116, 116));
 		btnEnter.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnEnter.setBounds(97, 384, 130, 26);
+		btnEnter.setBounds(47, 384, 130, 26);
 		btnEnter.setBorder(new RoundedBorder(10));
 		contentPane.add(btnEnter);
 
-		btnQuit = new JButton("");
-		btnQuit.setBackground(new Color(138, 138, 138));
+		btnQuit = new JButton("Salir");
+		btnQuit.setForeground(new Color(255, 255, 255));
+		btnQuit.setBackground(new Color(116, 116, 116));
 		btnQuit.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnQuit.setBounds(573, 384, 130, 26);
+		btnQuit.setBounds(637, 384, 130, 26);
 		btnQuit.setBorder(new RoundedBorder(10));
 		contentPane.add(btnQuit);
 
 		textFieldUser = new JTextField();
 		textFieldUser.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		textFieldUser.setBounds(261, 129, 246, 20);
+		textFieldUser.setBounds(261, 119, 246, 30);
 		contentPane.add(textFieldUser);
 		textFieldUser.setColumns(10);
 
 		textFieldPassword = new JPasswordField();
 		textFieldPassword.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		textFieldPassword.setColumns(10);
-		textFieldPassword.setBounds(261, 199, 246, 20);
+		textFieldPassword.setBounds(261, 189, 246, 30);
 		textFieldPassword.setEchoChar('*');
 		contentPane.add(textFieldPassword);
 
-		btnNoticias = new JButton("");
-		btnNoticias.setBackground(new Color(138, 138, 138));
+		btnNoticias = new JButton("Noticias");
+		btnNoticias.setForeground(new Color(255, 255, 255));
+		btnNoticias.setBackground(new Color(116, 116, 116));
 		btnNoticias.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnNoticias.setBounds(337, 384, 130, 26);
 		btnNoticias.setBorder(new RoundedBorder(10));
 		contentPane.add(btnNoticias);
 
 		lblWrong = new JLabel("", SwingConstants.CENTER);
+		lblWrong.setForeground(new Color(255, 255, 255));
 		lblWrong.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
 		lblWrong.setBounds(97, 672, 523, 63);
 		contentPane.add(lblWrong);
 
-		btnCreate = new JButton("");
-		btnCreate.setBackground(new Color(138, 138, 138));
+		btnCreate = new JButton("Crear cuenta de usuario");
+		btnCreate.setForeground(new Color(255, 255, 255));
+		btnCreate.setBackground(new Color(116, 116, 116));
 		btnCreate.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnCreate.setBounds(230, 528, 277, 26);
+		btnCreate.setBounds(293, 527, 195, 26);
 		btnCreate.setBorder(new RoundedBorder(10));
 		contentPane.add(btnCreate);
 
-		tglbtnSee = new JToggleButton("");
-		tglbtnSee.setBackground(new Color(138, 138, 138));
+		tglbtnSee = new JToggleButton("Ver");
+		tglbtnSee.setForeground(new Color(255, 255, 255));
+		tglbtnSee.setBackground(new Color(116, 116, 116));
 		tglbtnSee.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		tglbtnSee.setBounds(523, 196, 18, 23);
+		tglbtnSee.setBounds(517, 193, 50, 23);
 		tglbtnSee.setBorder(new RoundedBorder(10));
 		contentPane.add(tglbtnSee);
 		
-		lblNewLabel = new JLabel("VER");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblNewLabel.setBounds(551, 191, 50, 32);
-		contentPane.add(lblNewLabel);
-		
-		lblEntrar = new JLabel("ENTRAR");
-		lblEntrar.setForeground(Color.WHITE);
-		lblEntrar.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblEntrar.setBounds(120, 347, 72, 26);
-		contentPane.add(lblEntrar);
-		
-		lblNoticias = new JLabel("NOTICIAS");
-		lblNoticias.setForeground(Color.WHITE);
-		lblNoticias.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblNoticias.setBounds(359, 347, 80, 26);
-		contentPane.add(lblNoticias);
-		
-		lblSalir = new JLabel("SALIR");
-		lblSalir.setForeground(Color.WHITE);
-		lblSalir.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblSalir.setBounds(613, 347, 50, 26);
-		contentPane.add(lblSalir);
-		
-		lblCrearCuentaDe = new JLabel("CREAR CUENTA DE USUARIO");
-		lblCrearCuentaDe.setForeground(Color.WHITE);
-		lblCrearCuentaDe.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblCrearCuentaDe.setBounds(250, 480, 246, 37);
-		contentPane.add(lblCrearCuentaDe);
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1.setBounds(-14, 0, 814, 900);
+		lblNewLabel_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1);
 
 		btnEnter.addActionListener(this);
 		btnQuit.addActionListener(this);

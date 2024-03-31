@@ -40,6 +40,7 @@ public class V_Noticias extends JFrame implements ActionListener {
 	private JButton btnNext;
 	private JButton btnBack;
 	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_1_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private ArrayList<News> ns;
@@ -49,9 +50,6 @@ public class V_Noticias extends JFrame implements ActionListener {
 	private ImageIcon img;
 	private News n;
 	private JLabel lblNewLabel;
-	private JLabel lblAnterior;
-	private JLabel lblAtrs;
-	private JLabel lblSiguiente;
 
 	/**
 	 * Create the frame.
@@ -71,16 +69,18 @@ public class V_Noticias extends JFrame implements ActionListener {
 
 		contentPane.setLayout(null);
 
-		btnPrevious = new JButton("");
-		btnPrevious.setBackground(new Color(138, 138, 138));
+		btnPrevious = new JButton("Anterior");
+		btnPrevious.setForeground(new Color(255, 255, 255));
+		btnPrevious.setBackground(new Color(116, 116, 116));
 		btnPrevious.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
 		btnPrevious.setBounds(48, 831, 142, 23);
 		btnPrevious.setBorder(new RoundedBorder(10));
 		contentPane.add(btnPrevious);
 
-		btnNext = new JButton("");
-		btnNext.setBackground(new Color(138, 138, 138));
+		btnNext = new JButton("Siguiente");
+		btnNext.setForeground(new Color(255, 255, 255));
+		btnNext.setBackground(new Color(116, 116, 116));
 		btnNext.setBorder(new RoundedBorder(10));
 		btnNext.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
@@ -88,19 +88,19 @@ public class V_Noticias extends JFrame implements ActionListener {
 		contentPane.add(btnNext);
 
 		lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(48, 65, 893, 610);
+		lblNewLabel_1.setBounds(48, 68, 893, 554);
 		contentPane.add(lblNewLabel_1);
 
 		lblNewLabel_2 = new JLabel("", SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblNewLabel_2.setBounds(235, 686, 550, 43);
+		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 32));
+		lblNewLabel_2.setBounds(223, 649, 550, 43);
 		contentPane.add(lblNewLabel_2);
 
 		lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblNewLabel_3.setBounds(223, 725, 550, 57);
+		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblNewLabel_3.setBounds(48, 688, 893, 57);
 		contentPane.add(lblNewLabel_3);
 
 		ns = this.l.showNews();
@@ -137,11 +137,12 @@ public class V_Noticias extends JFrame implements ActionListener {
 		lblNewLabel_1.setBorder(new RoundedBorder(2));
 		btnPrevious.setEnabled(false);
 		
-		btnBack = new JButton("");
-		btnBack.setBackground(new Color(138, 138, 138));
+		btnBack = new JButton("Atrás");
+		btnBack.setForeground(new Color(255, 255, 255));
+		btnBack.setBackground(new Color(116, 116, 116));
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnBack.setBorder(new RoundedBorder(10));
-		btnBack.setBounds(466, 831, 89, 23);
+		btnBack.setBounds(430, 831, 142, 23);
 		contentPane.add(btnBack);
 		
 		lblNewLabel = new JLabel("NOTICIAS");
@@ -150,23 +151,13 @@ public class V_Noticias extends JFrame implements ActionListener {
 		lblNewLabel.setBounds(451, 11, 89, 43);
 		contentPane.add(lblNewLabel);
 		
-		lblAnterior = new JLabel("ANTERIOR");
-		lblAnterior.setForeground(Color.WHITE);
-		lblAnterior.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblAnterior.setBounds(71, 865, 89, 43);
-		contentPane.add(lblAnterior);
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 		
-		lblAtrs = new JLabel("ATRÁS");
-		lblAtrs.setForeground(Color.WHITE);
-		lblAtrs.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblAtrs.setBounds(476, 865, 65, 43);
-		contentPane.add(lblAtrs);
 		
-		lblSiguiente = new JLabel("SIGUIENTE");
-		lblSiguiente.setForeground(Color.WHITE);
-		lblSiguiente.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblSiguiente.setBounds(827, 865, 94, 43);
-		contentPane.add(lblSiguiente);
 		// btnNext.setEnabled(false);
 		btnBack.addActionListener(this);
 	}
@@ -223,6 +214,12 @@ public class V_Noticias extends JFrame implements ActionListener {
 				lblNewLabel_1.setIcon((Icon) img);
 				lblNewLabel_2.setText(n.getTitulo());
 				lblNewLabel_3.setText(n.getDescripcion_noticia());
+				lblNewLabel_1.setBorder(new RoundedBorder(2));
+				lblNewLabel_1_1 = new JLabel("");
+				lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+				lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+				lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+				contentPane.add(lblNewLabel_1_1);
 			}
 		} else if (o == btnPrevious) {
 		
@@ -252,6 +249,12 @@ public class V_Noticias extends JFrame implements ActionListener {
 				lblNewLabel_1.setIcon((Icon) img);
 				lblNewLabel_2.setText(n.getTitulo());
 				lblNewLabel_3.setText(n.getDescripcion_noticia());
+				lblNewLabel_1.setBorder(new RoundedBorder(2));
+				lblNewLabel_1_1 = new JLabel("");
+				lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+				lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+				lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+				contentPane.add(lblNewLabel_1_1);
 			}
 		}
 		

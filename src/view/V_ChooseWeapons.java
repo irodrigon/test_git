@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
@@ -35,6 +36,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Color;
 
 public class V_ChooseWeapons extends JFrame implements ActionListener{
 
@@ -56,8 +58,10 @@ public class V_ChooseWeapons extends JFrame implements ActionListener{
 	private ArrayList<Arsenal> weaponsAvailable;
 	private JLabel lblCambios;
 	private int guarda;
+	private JLabel lblNewLabel_1_1;
 
 	public V_ChooseWeapons(Controller l, int id_user,int count) {
+		setUndecorated(true);
 		this.l = l;
 		pol = l.showPoliceman(id_user);
 		this.count = count;
@@ -104,8 +108,12 @@ public class V_ChooseWeapons extends JFrame implements ActionListener{
 
 		table = new JTable(model);
 		table.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		table.setBackground(new Color(116,116,116));
+		table.setForeground(new Color(255,255,255));
 		table.setBounds(10, 169, 964, 557);
 		table.getTableHeader().setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		table.getTableHeader().setBackground(new Color(116,116,116));
+		table.getTableHeader().setForeground(new Color(255,255,255));
 		scroll = new JScrollPane(table);
 		scroll.setBounds(10, 169, 964, 557);
 		contentPane.add(scroll);
@@ -130,15 +138,24 @@ public class V_ChooseWeapons extends JFrame implements ActionListener{
 		table.getColumnModel().getColumn(2).setCellEditor(editor);
 
 		btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		btnConfirmar.setForeground(new Color(255, 255, 255));
+		btnConfirmar.setBackground(new Color(116, 116, 116));
 		btnConfirmar.setBounds(130, 777, 104, 23);
 		contentPane.add(btnConfirmar);
 
 		btnBack = new JButton("Volver");
+		btnBack.setForeground(new Color(255, 255, 255));
+		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		btnBack.setBackground(new Color(116, 116, 116));
 		btnBack.setEnabled(false);
 		btnBack.setBounds(452, 777, 89, 23);
 		contentPane.add(btnBack);
 
 		btnCancel = new JButton("Cancelar");
+		btnCancel.setForeground(new Color(255, 255, 255));
+		btnCancel.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		btnCancel.setBackground(new Color(116, 116, 116));
 		btnCancel.setBounds(781, 777, 89, 23);
 		contentPane.add(btnCancel);
 		
@@ -146,6 +163,11 @@ public class V_ChooseWeapons extends JFrame implements ActionListener{
 		lblCambios.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		lblCambios.setBounds(372, 840, 226, 32);
 		contentPane.add(lblCambios);
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 
 		btnConfirmar.addActionListener(this);
 		btnBack.addActionListener(this);

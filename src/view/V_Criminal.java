@@ -30,6 +30,7 @@ import model.Arsenal;
 import model.Busca;
 import model.Criminal;
 import model.Policeman;
+import java.awt.Color;
 
 public class V_Criminal extends JFrame implements ActionListener{
 
@@ -44,15 +45,17 @@ public class V_Criminal extends JFrame implements ActionListener{
 	private Criminal crim;
 	private int id_user;
 	private Policeman pol;
+	private JLabel lblNewLabel_1_1;
 	
 	public V_Criminal(Controller l, int id_policia,int id_user) {
+		setUndecorated(true);
 		this.l = l;
 		crim = l.returnSuspectById(id_policia);
 		pol = l.showPoliceman(id_user);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new RoundedBorder(20));
 
 		setContentPane(contentPane);
 		
@@ -88,29 +91,41 @@ public class V_Criminal extends JFrame implements ActionListener{
 		
 
 		btnBack = new JButton("Atrás");
+		btnBack.setBackground(new Color(116, 116, 116));
+		btnBack.setForeground(new Color(255, 255, 255));
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnBack.setBounds(468, 907, 89, 23);
+		btnBack.setBounds(468, 903, 89, 27);
 		contentPane.add(btnBack);
 		
 		JLabel lblDni = new JLabel("DNI: " + crim.getDni());
-		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblDni.setForeground(new Color(255, 255, 255));
+		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblDni.setBounds(147, 623, 445, 43);
 		contentPane.add(lblDni);
 		
 		JLabel lblNombre_criminal = new JLabel("Nombre: " + crim.getNombre_criminal());
-		lblNombre_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblNombre_criminal.setForeground(new Color(255, 255, 255));
+		lblNombre_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNombre_criminal.setBounds(147, 677, 445, 43);
 		contentPane.add(lblNombre_criminal);
 		
 		JLabel lblApellido_criminal = new JLabel("Apellido: " + crim.getApellido_criminal());
-		lblApellido_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblApellido_criminal.setForeground(new Color(255, 255, 255));
+		lblApellido_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblApellido_criminal.setBounds(147, 732, 445, 43);
 		contentPane.add(lblApellido_criminal);
 		
 		JLabel lblDescripcion_criminal = new JLabel("Descripcion: " + crim.getDescripcion_criminal());
-		lblDescripcion_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblDescripcion_criminal.setForeground(new Color(255, 255, 255));
+		lblDescripcion_criminal.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblDescripcion_criminal.setBounds(147, 790, 445, 43);
 		contentPane.add(lblDescripcion_criminal);
+		
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 
 		// btnNext.setEnabled(false);
 		btnBack.addActionListener(this);

@@ -29,6 +29,7 @@ import controller.Controller;
 import model.Arsenal;
 import model.Busca;
 import model.Policeman;
+import java.awt.Color;
 
 public class V_ViewWeapons extends JFrame implements ActionListener {
 
@@ -50,47 +51,55 @@ public class V_ViewWeapons extends JFrame implements ActionListener {
 	private Arsenal a;
 	private Policeman pol;
 	private ArrayList<Busca> busquedas;
+	private JLabel lblNewLabel_1_1;
 
 	/**
 	 * Create the frame.
 	 */
 	public V_ViewWeapons(Controller l, int id_user) {
+		setUndecorated(true);
 		this.l = l;
 		pol = l.showPoliceman(id_user);
 		busquedas = l.weaponsAssigned(pol.getId_policia());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new RoundedBorder(5));
 
 		setContentPane(contentPane);
 
 		contentPane.setLayout(null);
 
 		btnPrevious = new JButton("Anterior");
+		btnPrevious.setForeground(new Color(255, 255, 255));
+		btnPrevious.setBackground(new Color(116, 116, 116));
 		btnPrevious.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
 		btnPrevious.setBounds(48, 831, 142, 23);
 		contentPane.add(btnPrevious);
 
 		btnNext = new JButton("Siguiente");
+		btnNext.setForeground(new Color(255, 255, 255));
+		btnNext.setBackground(new Color(116, 116, 116));
 		btnNext.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
 		btnNext.setBounds(807, 831, 134, 23);
 		contentPane.add(btnNext);
 
 		lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(48, 26, 893, 649);
+		lblNewLabel_1.setBounds(289, 36, 474, 520);
 		contentPane.add(lblNewLabel_1);
 
 		lblNewLabel_2 = new JLabel("", SwingConstants.CENTER);
-		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblNewLabel_2.setBounds(235, 686, 550, 43);
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
+		lblNewLabel_2.setBounds(234, 611, 550, 43);
 		contentPane.add(lblNewLabel_2);
 
 		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblNewLabel_3.setBounds(223, 750, 550, 57);
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblNewLabel_3.setBounds(221, 680, 550, 57);
 		contentPane.add(lblNewLabel_3);
 
 		weaponsList = l.showWeapons();
@@ -105,8 +114,6 @@ public class V_ViewWeapons extends JFrame implements ActionListener {
 		it = threeWeapons.listIterator();
 		a = it.next();
 
-		btnPrevious.addActionListener(this);
-		btnNext.addActionListener(this);
 		Blob image = (Blob) a.getFoto_arsenal();
 		InputStream is;
 		try {
@@ -135,12 +142,21 @@ public class V_ViewWeapons extends JFrame implements ActionListener {
 		btnPrevious.setEnabled(false);
 
 		btnBack = new JButton("Atrás");
+		btnBack.setForeground(new Color(255, 255, 255));
+		btnBack.setBackground(new Color(116, 116, 116));
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnBack.setBounds(466, 831, 89, 23);
 		contentPane.add(btnBack);
-
+		
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 		// btnNext.setEnabled(false);
 		btnBack.addActionListener(this);
+		btnPrevious.addActionListener(this);
+		btnNext.addActionListener(this);
 	}
 
 	@Override
@@ -195,6 +211,11 @@ public class V_ViewWeapons extends JFrame implements ActionListener {
 				lblNewLabel_1.setIcon((Icon) img);
 				lblNewLabel_2.setText(a.getNombre_arsenal());
 				lblNewLabel_3.setText(a.getDescripcion_arsenal());
+				lblNewLabel_1_1 = new JLabel("");
+				lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+				lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+				lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+				contentPane.add(lblNewLabel_1_1);
 			}
 		} else if (o == btnPrevious) {
 
@@ -224,6 +245,11 @@ public class V_ViewWeapons extends JFrame implements ActionListener {
 				lblNewLabel_1.setIcon((Icon) img);
 				lblNewLabel_2.setText(a.getNombre_arsenal());
 				lblNewLabel_3.setText(a.getDescripcion_arsenal());
+				lblNewLabel_1_1 = new JLabel("");
+				lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+				lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+				lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+				contentPane.add(lblNewLabel_1_1);
 			}
 		}
 

@@ -28,10 +28,13 @@ import java.io.IOException;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JToggleButton;
+import java.awt.Toolkit;
+import java.awt.Color;
 
 public class V_ModifyPolicemanUser extends JFrame implements ActionListener {
 
@@ -60,155 +63,184 @@ public class V_ModifyPolicemanUser extends JFrame implements ActionListener {
 	private File file;
 	private JLabel lblFiles;
 	private JLabel lblSaveChanges;
+	private JLabel lblNewLabel_1_1;
 
 	public V_ModifyPolicemanUser(Controller l, int id_user) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(V_ModifyPolicemanUser.class.getResource("/photos/pixelart.png")));
+		setUndecorated(true);
 		this.l = l;
 		p = l.showPoliceman(id_user);
 		u = l.returnUserById(id_user);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new RoundedBorder(5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel contentPane_1 = new JPanel();
-		contentPane_1.setLayout(null);
-		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane_1.setBounds(0, 0, 984, 961);
-		contentPane.add(contentPane_1);
-
 		JLabel lblUserName = new JLabel("Username:");
-		lblUserName.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblUserName.setForeground(new Color(255, 255, 255));
+		lblUserName.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblUserName.setBounds(204, 502, 104, 36);
-		contentPane_1.add(lblUserName);
+		contentPane.add(lblUserName);
 
 		textFieldUserName = new JTextField();
 		textFieldUserName.setColumns(10);
-		textFieldUserName.setBounds(318, 510, 316, 20);
-		contentPane_1.add(textFieldUserName);
+		textFieldUserName.setBounds(318, 502, 316, 28);
+		contentPane.add(textFieldUserName);
 
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblPassword.setForeground(new Color(255, 255, 255));
+		lblPassword.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblPassword.setBounds(204, 549, 104, 36);
-		contentPane_1.add(lblPassword);
+		contentPane.add(lblPassword);
 
 		passwordField = new JPasswordField();
 		passwordField.setEchoChar('*');
-		passwordField.setBounds(318, 557, 316, 20);
-		contentPane_1.add(passwordField);
+		passwordField.setBounds(318, 549, 316, 28);
+		contentPane.add(passwordField);
 
 		btnUpload = new JButton("Subir Foto");
+		btnUpload.setForeground(new Color(255, 255, 255));
+		btnUpload.setBackground(new Color(116, 116, 116));
 		btnUpload.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnUpload.setBounds(318, 777, 316, 23);
-		contentPane_1.add(btnUpload);
+		contentPane.add(btnUpload);
 
 		lblFiles = new JLabel("");
-		lblFiles.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblFiles.setBounds(72, 811, 770, 18);
-		contentPane_1.add(lblFiles);
+		lblFiles.setForeground(new Color(255, 255, 255));
+		lblFiles.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblFiles.setBounds(72, 801, 770, 28);
+		contentPane.add(lblFiles);
 
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblNombre.setForeground(new Color(255, 255, 255));
+		lblNombre.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNombre.setBounds(204, 596, 104, 36);
-		contentPane_1.add(lblNombre);
+		contentPane.add(lblNombre);
 
 		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblApellido.setForeground(new Color(255, 255, 255));
+		lblApellido.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblApellido.setBounds(204, 643, 104, 36);
-		contentPane_1.add(lblApellido);
+		contentPane.add(lblApellido);
 
 		JLabel lblRango = new JLabel("Rango:");
-		lblRango.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblRango.setForeground(new Color(255, 255, 255));
+		lblRango.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblRango.setBounds(204, 690, 104, 36);
-		contentPane_1.add(lblRango);
+		contentPane.add(lblRango);
 
 		textFieldNombre = new JTextField();
 		textFieldNombre.setColumns(10);
-		textFieldNombre.setBounds(318, 604, 316, 20);
-		contentPane_1.add(textFieldNombre);
+		textFieldNombre.setBounds(318, 596, 316, 28);
+		contentPane.add(textFieldNombre);
 
 		textFieldApellido = new JTextField();
 		textFieldApellido.setColumns(10);
-		textFieldApellido.setBounds(318, 651, 316, 20);
-		contentPane_1.add(textFieldApellido);
+		textFieldApellido.setBounds(318, 643, 316, 28);
+		contentPane.add(textFieldApellido);
 
 		btnSave = new JButton("Guardar Cambios");
+		btnSave.setForeground(new Color(255, 255, 255));
+		btnSave.setBackground(new Color(116, 116, 116));
 		btnSave.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnSave.setBounds(204, 854, 132, 23);
-		contentPane_1.add(btnSave);
+		contentPane.add(btnSave);
 
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setForeground(new Color(255, 255, 255));
+		btnCancelar.setBackground(new Color(116, 116, 116));
 		btnCancelar.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnCancelar.setBounds(591, 854, 132, 23);
-		contentPane_1.add(btnCancelar);
+		contentPane.add(btnCancelar);
 
 		lblSaveChanges = new JLabel("", SwingConstants.CENTER);
+		lblSaveChanges.setForeground(new Color(255, 255, 255));
 		lblSaveChanges.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		lblSaveChanges.setBounds(318, 921, 316, 29);
-		contentPane_1.add(lblSaveChanges);
+		contentPane.add(lblSaveChanges);
 
 		btnBack = new JButton("Volver");
+		btnBack.setForeground(new Color(255, 255, 255));
+		btnBack.setBackground(new Color(116, 116, 116));
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnBack.setEnabled(false);
 		btnBack.setBounds(393, 854, 132, 23);
-		contentPane_1.add(btnBack);
+		contentPane.add(btnBack);
 
 		tglbtnSee = new JToggleButton("Ver");
+		tglbtnSee.setForeground(new Color(255, 255, 255));
+		tglbtnSee.setBackground(new Color(116, 116, 116));
 		tglbtnSee.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		tglbtnSee.setBounds(659, 556, 64, 23);
-		contentPane_1.add(tglbtnSee);
+		tglbtnSee.setBounds(659, 549, 64, 23);
+		contentPane.add(tglbtnSee);
 
 		JLabel lblAviso = new JLabel("Las fotos deberán tener una resolución de 474x711, si no, no se mostrarán bien.");
+		lblAviso.setForeground(new Color(255, 255, 255));
 		lblAviso.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		lblAviso.setBounds(231, 748, 509, 18);
-		contentPane_1.add(lblAviso);
+		contentPane.add(lblAviso);
 
 		String[] rangoStrings = { "-", "Cabo", "Sargento", "Teniente", "Capitán", "Comandante" };
 		comboRango = new JComboBox<String>(rangoStrings);
-		comboRango.setBounds(318, 697, 316, 22);
-		contentPane_1.add(comboRango);
+		comboRango.setBounds(318, 690, 316, 29);
+		contentPane.add(comboRango);
 
 		JLabel lblTitle = new JLabel("Modifica tus datos " + p.getNombre_policia(), SwingConstants.CENTER);
-		lblTitle.setBounds(318, 11, 286, 35);
-		contentPane_1.add(lblTitle);
-		lblTitle.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblTitle.setForeground(new Color(255, 255, 255));
+		lblTitle.setBounds(318, 11, 344, 35);
+		contentPane.add(lblTitle);
+		lblTitle.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
 
 		lblDni = new JLabel("DNI: " + p.getDni());
-		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblDni.setForeground(new Color(255, 255, 255));
+		lblDni.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblDni.setBounds(204, 238, 445, 43);
-		contentPane_1.add(lblDni);
+		contentPane.add(lblDni);
 
 		lblNombre_policia = new JLabel("Nombre: " + p.getNombre_policia());
-		lblNombre_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblNombre_policia.setForeground(new Color(255, 255, 255));
+		lblNombre_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNombre_policia.setBounds(204, 292, 445, 43);
-		contentPane_1.add(lblNombre_policia);
+		contentPane.add(lblNombre_policia);
 
 		lblApellido_policia = new JLabel("Apellido: " + p.getApellido_policia());
-		lblApellido_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblApellido_policia.setForeground(new Color(255, 255, 255));
+		lblApellido_policia.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblApellido_policia.setBounds(204, 347, 445, 43);
-		contentPane_1.add(lblApellido_policia);
+		contentPane.add(lblApellido_policia);
 
 		lblRango_1 = new JLabel("Rango: " + p.getRango());
-		lblRango_1.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblRango_1.setForeground(new Color(255, 255, 255));
+		lblRango_1.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblRango_1.setBounds(204, 405, 445, 43);
-		contentPane_1.add(lblRango_1);
+		contentPane.add(lblRango_1);
 
 		lblDataUserName = new JLabel("Username: " + u.getUsername());
-		lblDataUserName.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		lblDataUserName.setForeground(new Color(255, 255, 255));
+		lblDataUserName.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblDataUserName.setBounds(204, 192, 445, 43);
-		contentPane_1.add(lblDataUserName);
+		contentPane.add(lblDataUserName);
 
 		JLabel lblDatosActuales = new JLabel("Datos Actuales:", SwingConstants.CENTER);
-		lblDatosActuales.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblDatosActuales.setForeground(new Color(255, 255, 255));
+		lblDatosActuales.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
 		lblDatosActuales.setBounds(318, 109, 286, 35);
-		contentPane_1.add(lblDatosActuales);
+		contentPane.add(lblDatosActuales);
 
 		JLabel lblDatosNuevos = new JLabel("Datos Nuevos:", SwingConstants.CENTER);
-		lblDatosNuevos.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblDatosNuevos.setForeground(new Color(255, 255, 255));
+		lblDatosNuevos.setFont(new Font("Teko SemiBold", Font.PLAIN, 30));
 		lblDatosNuevos.setBounds(318, 448, 286, 35);
-		contentPane_1.add(lblDatosNuevos);
+		contentPane.add(lblDatosNuevos);
+		
+		lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(V_Principal.class.getResource("/photos/ladrillos.jpg")));
+		lblNewLabel_1_1.setBounds(-60, -73, 1066, 1135);
+		lblNewLabel_1_1.setBorder(new RoundedBorder(20));
+		contentPane.add(lblNewLabel_1_1);
 
 		btnUpload.addActionListener(this);
 		btnCancelar.addActionListener(this);
