@@ -1,6 +1,7 @@
 package view;
 
-
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +26,11 @@ import javax.swing.border.EmptyBorder;
 import com.mysql.cj.jdbc.Blob;
 
 import controller.Controller;
-import model.News;
+import model.Arsenal;
+import model.Busca;
+import model.Policeman;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Toolkit;
-
-public class V_Noticias extends JFrame implements ActionListener {
+public class V_ViewWeapons extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -42,74 +41,73 @@ public class V_Noticias extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
-	private ArrayList<News> ns;
-	private ListIterator<News> it;
+	private ArrayList<Arsenal> weaponsList;
+	private ArrayList<Arsenal> threeWeapons;
+	private ListIterator<Arsenal> it;
 	private BufferedImage icon;
 	private Image endImage;
 	private ImageIcon img;
-	private News n;
-	private JLabel lblNewLabel;
-	private JLabel lblAnterior;
-	private JLabel lblAtrs;
-	private JLabel lblSiguiente;
+	private Arsenal a;
+	private Policeman pol;
+	private ArrayList<Busca> busquedas;
 
 	/**
 	 * Create the frame.
 	 */
-	public V_Noticias(Controller l) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(V_Noticias.class.getResource("/photos/pixelart.png")));
+	public V_ViewWeapons(Controller l, int id_user) {
 		this.l = l;
-		setBackground(new Color(105,105,105));
-		setUndecorated(true);
+		pol = l.showPoliceman(id_user);
+		busquedas = l.weaponsAssigned(pol.getId_policia());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 20, 1000, 1000);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(105,105,105));
-		contentPane.setBorder(new RoundedBorder(10));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 
 		contentPane.setLayout(null);
 
-		btnPrevious = new JButton("");
-		btnPrevious.setBackground(new Color(138, 138, 138));
+		btnPrevious = new JButton("Anterior");
 		btnPrevious.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
 		btnPrevious.setBounds(48, 831, 142, 23);
-		btnPrevious.setBorder(new RoundedBorder(10));
 		contentPane.add(btnPrevious);
 
-		btnNext = new JButton("");
-		btnNext.setBackground(new Color(138, 138, 138));
-		btnNext.setBorder(new RoundedBorder(10));
+		btnNext = new JButton("Siguiente");
 		btnNext.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 
 		btnNext.setBounds(807, 831, 134, 23);
 		contentPane.add(btnNext);
 
 		lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(48, 65, 893, 610);
+		lblNewLabel_1.setBounds(48, 26, 893, 649);
 		contentPane.add(lblNewLabel_1);
 
 		lblNewLabel_2 = new JLabel("", SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		lblNewLabel_2.setBounds(235, 686, 550, 43);
 		contentPane.add(lblNewLabel_2);
 
 		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		lblNewLabel_3.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblNewLabel_3.setBounds(223, 725, 550, 57);
+		lblNewLabel_3.setBounds(223, 750, 550, 57);
 		contentPane.add(lblNewLabel_3);
 
-		ns = this.l.showNews();
-		it = ns.listIterator();
-		n = it.next();
-		
+		weaponsList = l.showWeapons();
+		threeWeapons = new ArrayList<Arsenal>();
+		for (Arsenal a : weaponsList) {
+			for (Busca b : busquedas) {
+				if (a.getId_arsenal() == b.getId_arsenal()) {
+					threeWeapons.add(a);
+				}
+			}
+		}
+		it = threeWeapons.listIterator();
+		a = it.next();
+
 		btnPrevious.addActionListener(this);
 		btnNext.addActionListener(this);
-		Blob image = (Blob) n.getImageNews();
+		Blob image = (Blob) a.getFoto_arsenal();
 		InputStream is;
 		try {
 			is = image.getBinaryStream(1, image.length());
@@ -132,73 +130,47 @@ public class V_Noticias extends JFrame implements ActionListener {
 
 		img = new ImageIcon(endImage);
 		lblNewLabel_1.setIcon((Icon) img);
-		lblNewLabel_2.setText(String.valueOf(n.getTitulo()));
-		lblNewLabel_3.setText(n.getDescripcion_noticia());
-		lblNewLabel_1.setBorder(new RoundedBorder(2));
+		lblNewLabel_2.setText(String.valueOf(a.getNombre_arsenal()));
+		lblNewLabel_3.setText(a.getDescripcion_arsenal());
 		btnPrevious.setEnabled(false);
-		
-		btnBack = new JButton("");
-		btnBack.setBackground(new Color(138, 138, 138));
+
+		btnBack = new JButton("Atrás");
 		btnBack.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnBack.setBorder(new RoundedBorder(10));
 		btnBack.setBounds(466, 831, 89, 23);
 		contentPane.add(btnBack);
-		
-		lblNewLabel = new JLabel("NOTICIAS");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblNewLabel.setBounds(451, 11, 89, 43);
-		contentPane.add(lblNewLabel);
-		
-		lblAnterior = new JLabel("ANTERIOR");
-		lblAnterior.setForeground(Color.WHITE);
-		lblAnterior.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblAnterior.setBounds(71, 865, 89, 43);
-		contentPane.add(lblAnterior);
-		
-		lblAtrs = new JLabel("ATRÁS");
-		lblAtrs.setForeground(Color.WHITE);
-		lblAtrs.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblAtrs.setBounds(476, 865, 65, 43);
-		contentPane.add(lblAtrs);
-		
-		lblSiguiente = new JLabel("SIGUIENTE");
-		lblSiguiente.setForeground(Color.WHITE);
-		lblSiguiente.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
-		lblSiguiente.setBounds(827, 865, 94, 43);
-		contentPane.add(lblSiguiente);
+
 		// btnNext.setEnabled(false);
 		btnBack.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(it.nextIndex() >= ns.size() && !it.hasNext()){
+		if (it.nextIndex() >= threeWeapons.size() && !it.hasNext()) {
 			btnNext.setEnabled(false);
-		}else {
+		} else {
 			btnNext.setEnabled(true);
 		}
-		
-		if(it.nextIndex() == ns.size()) {
+
+		if (it.nextIndex() == threeWeapons.size()) {
 			it.previous();
 		}
-		
-		if(it.previousIndex() == -1) {
+
+		if (it.previousIndex() == -1) {
 			it.next();
 		}
-		
-		if(it.previousIndex() == -1 && !it.hasPrevious()){
+
+		if (it.previousIndex() == -1 && !it.hasPrevious()) {
 			btnNext.setEnabled(false);
-		}else {
+		} else {
 			btnNext.setEnabled(true);
 		}
-		
+
 		Object o = e.getSource();
 		if (o == btnNext) {
 			if (it.hasNext()) {
 				btnPrevious.setEnabled(true);
-				n = it.next();
-				Blob image = (Blob) n.getImageNews();
+				a = it.next();
+				Blob image = (Blob) a.getFoto_arsenal();
 				InputStream is;
 				try {
 					is = image.getBinaryStream(1, image.length());
@@ -221,14 +193,14 @@ public class V_Noticias extends JFrame implements ActionListener {
 
 				img = new ImageIcon(endImage);
 				lblNewLabel_1.setIcon((Icon) img);
-				lblNewLabel_2.setText(n.getTitulo());
-				lblNewLabel_3.setText(n.getDescripcion_noticia());
+				lblNewLabel_2.setText(a.getNombre_arsenal());
+				lblNewLabel_3.setText(a.getDescripcion_arsenal());
 			}
 		} else if (o == btnPrevious) {
-		
+
 			if (it.hasPrevious()) {
-				n = it.previous();
-				Blob image = (Blob) n.getImageNews();
+				a = it.previous();
+				Blob image = (Blob) a.getFoto_arsenal();
 				InputStream is;
 				try {
 					is = image.getBinaryStream(1, image.length());
@@ -250,17 +222,16 @@ public class V_Noticias extends JFrame implements ActionListener {
 				}
 				img = new ImageIcon(endImage);
 				lblNewLabel_1.setIcon((Icon) img);
-				lblNewLabel_2.setText(n.getTitulo());
-				lblNewLabel_3.setText(n.getDescripcion_noticia());
+				lblNewLabel_2.setText(a.getNombre_arsenal());
+				lblNewLabel_3.setText(a.getDescripcion_arsenal());
 			}
 		}
-		
-		if(o == btnBack){
-			V_Users vU = new V_Users(l);
-			vU.setVisible(true);
+
+		if (o == btnBack) {
+			V_Policemen vP = new V_Policemen(l, pol.getId_user());
+			vP.setVisible(true);
 			this.dispose();
 		}
 
 	}
 }
-

@@ -1,5 +1,8 @@
 package controller;
 
+import model.Arsenal;
+import model.Busca;
+import model.Criminal;
 import model.News;
 import model.Policeman;
 import model.User;
@@ -22,4 +25,8 @@ public interface InterfaceController {
 	public User returnUserById(int id);
 	public boolean updateUser(String u,String p,int id);
 	public boolean updatePoliceman(Blob foto_policia,String n,String a,String r,int id_user);
+	public ArrayList<Arsenal> showWeapons();
+	public ArrayList<Busca> weaponsAssigned(int id_policia);
+	public boolean moreWeapons(int id_policia,int id_arsenal);
+	public Criminal returnSuspectById(int id_policia);
 }

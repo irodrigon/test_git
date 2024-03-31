@@ -271,31 +271,41 @@ public class V_SignUp extends JFrame implements ActionListener{
 		}else if(o == btnSave && l.returnUserByName(textUserName.getText())){ 
 				lblSaveChanges.setText("Este perfil ya existe, por favor crea otro perfil.");
 		}else if(o == btnSave) {
-			us = l.returnMaxUser();
-			l.insertUser(us.getUser_id()+1,textUserName.getText(),new String(passwordField.getPassword()));
-			us = l.returnMaxUser();
-			id_user = us.getUser_id();
-			id_user = id_user ++;
-			FileInputStream is = null;
-			try {
-				is = new FileInputStream(file);
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			int option = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar su perfil?");
+			if(option == JOptionPane.YES_OPTION) {
+				us = l.returnMaxUser();
+				l.insertUser(us.getUser_id()+1,textUserName.getText(),new String(passwordField.getPassword()));
+				us = l.returnMaxUser();
+				id_user = us.getUser_id();
+				id_user = id_user ++;
+				FileInputStream is = null;
+				try {
+					is = new FileInputStream(file);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Blob blob = null;
+				try {
+					blob = new Blob(is.readAllBytes(), null);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				pol = l.returnMaxPoliceman();
+				id_pol = pol.getId_policia();
+				id_pol = id_pol+1;
+				l.insertPoliceman(id_pol,blob, textFieldDni.getText(), textFieldName.getText(), textFieldLastName.getText(), (String) comboRango.getSelectedItem(), id_user);
+				lblSaveChanges.setText("Cambios guardados.");
+				btnBack.setEnabled(true);
+			}else if(option == JOptionPane.NO_OPTION) {
+				
+			}else if(option == JOptionPane.CANCEL_OPTION) {
+				
+			}else if(option == JOptionPane.CLOSED_OPTION) {
+				
 			}
-			Blob blob = null;
-			try {
-				blob = new Blob(is.readAllBytes(), null);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			pol = l.returnMaxPoliceman();
-			id_pol = pol.getId_policia();
-			id_pol = id_pol+1;
-			l.insertPoliceman(id_pol,blob, textFieldDni.getText(), textFieldName.getText(), textFieldLastName.getText(), (String) comboRango.getSelectedItem(), id_user);
-			lblSaveChanges.setText("Cambios guardados.");
-			btnBack.setEnabled(true);
+			
 		}
 		
 	}

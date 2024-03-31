@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Arsenal;
+import model.Busca;
+import model.Criminal;
 import model.News;
 import model.Policeman;
 import model.User;
@@ -18,6 +21,7 @@ public class Controller implements InterfaceController {
 	private Connection conn;
 	private PreparedStatement stmt;
 	private final String SHOW_NEWS = "SELECT * FROM NOTICIA";
+	private final String SHOW_SUSPECTS_BY_ID = "SELECT * FROM CRIMINAL WHERE id_policia = ?";
 	private final String RETURN_MAX_USER = "SELECT * FROM USERS WHERE ID_USER = (SELECT MAX(ID_USER) FROM USERS)";
 	private final String SELECT_USER = "SELECT * FROM users WHERE username=? AND password=?";
 	private final String IDENTIFY_POLICEMAN = "SELECT * FROM POLICIA WHERE ID_user= ?";
@@ -32,7 +36,10 @@ public class Controller implements InterfaceController {
 	private final String RETURN_USER_BY_ID = "SELECT * FROM USERS WHERE id_user = ?";
 	private final String UPDATE_USER = "UPDATE USERS SET username = ?,password = ? WHERE ID_USER = ?";
 	private final String UPDATE_POLICEMAN ="UPDATE POLICIA SET foto_policia=?,nombre_policia = ?,apellido_policia = ?,rango = ? WHERE id_user = ?";
-
+	private final String SHOW_WEAPONS ="SELECT * FROM ARSENAL";
+	private final String WEAPONS_ASSIGNED = "SELECT * FROM BUSCA WHERE ID_POLICIA = ?";
+	private final String MORE_WEAPONS = "INSERT INTO BUSCA VALUES(?,?)";
+	
 	@Override
 	public Policeman returnMaxPoliceman() {
 		ResultSet rs = null;
@@ -626,5 +633,177 @@ public class Controller implements InterfaceController {
 
 		return cambios;
 	}
+
+	@Override
+	public ArrayList<Arsenal> showWeapons() {
+		ResultSet rs = null;
+		Arsenal a = null;
+		ArrayList<Arsenal> weaponsList = new ArrayList<Arsenal>();
+
+		this.openConnection();
+		try {
+			stmt = conn.prepareStatement(SHOW_WEAPONS);
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				a = new Arsenal();
+				a.setId_arsenal(rs.getInt("id_arsenal"));
+				a.setFoto_arsenal(rs.getBlob("foto_arsenal"));
+				a.setNombre_arsenal(rs.getString("nombre_arsenal"));
+				a.setDescripcion_arsenal(rs.getString("descripcion_arsenal"));
+				a.setId_administrador(rs.getInt("id_administrador"));
+				weaponsList.add(a);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return weaponsList;
+	}
+
+	@Override
+	public ArrayList<Busca> weaponsAssigned(int id_policia) {
+		ResultSet rs = null;
+		Busca busca = null;
+		ArrayList<Busca> busquedas = new ArrayList<Busca>();
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(WEAPONS_ASSIGNED);
+
+			// Cargamos los parámetros
+			stmt.setInt(1, id_policia);
+
+			rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				busca = new Busca();
+				busca.setId_policia(rs.getInt("id_Policia"));
+				busca.setId_arsenal(rs.getInt("id_arsenal"));
+				busquedas.add(busca);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return busquedas;
+		
+	}
+
+	@Override
+	public boolean moreWeapons(int id_policia, int id_arsenal) {
+			boolean cambios = false;
+
+			this.openConnection();
+
+			try {
+				stmt = conn.prepareStatement(MORE_WEAPONS);
+
+				stmt.setInt(1, id_policia);
+				stmt.setInt(2, id_arsenal);
+
+				if (stmt.executeUpdate() == 1)
+					cambios = true;
+
+			} catch (SQLException e1) {
+				System.out.println("Error de SQL");
+				e1.printStackTrace();
+			} finally {
+
+				try {
+					this.closeConnection();
+				} catch (SQLException e1) {
+					System.out.println("Error en el cierre de la BD");
+					e1.printStackTrace();
+				}
+			}
+
+			return cambios;
+	}
+
+	@Override
+	public Criminal returnSuspectById(int id_policia) {
+		ResultSet rs = null;
+		Criminal crim = null;
+
+		this.openConnection();
+
+		try {
+			stmt = conn.prepareStatement(SHOW_SUSPECTS_BY_ID);
+
+			// Cargamos los parámetros
+			stmt.setInt(1, id_policia);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				crim = new Criminal();
+				crim .setId_criminal(rs.getInt("id_criminal"));
+				crim.setFoto_criminal(rs.getBlob("foto_criminal"));
+				crim.setDni(rs.getString("dni"));
+				crim.setNombre_criminal(rs.getString("nombre_criminal"));
+				crim.setApellido_criminal(rs.getString("apellido_criminal"));
+				crim.setDescripcion_criminal(rs.getString("descripcion_criminal"));
+				crim.setId_administrador(rs.getInt("id_administrador"));
+				crim.setId_policia(rs.getInt("id_policia"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		} finally {
+			// Cerramos ResultSet
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					System.out.println("Error en cierre del ResultSet");
+				}
+			}
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Error en el cierre de la BD");
+				e.printStackTrace();
+			}
+		}
+
+		return crim;
+	}
+	
+	
 
 }

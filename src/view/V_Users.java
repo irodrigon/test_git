@@ -3,6 +3,7 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
@@ -11,16 +12,22 @@ import model.User;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
+import java.awt.Toolkit;
 
 public class V_Users extends JFrame implements ActionListener {
 
@@ -36,43 +43,60 @@ public class V_Users extends JFrame implements ActionListener {
 	private JButton btnCreate;
 	private JToggleButton tglbtnSee;
 	private int id_user;
+	private JLabel lblNewLabel;
+	private JLabel lblEntrar;
+	private JLabel lblNoticias;
+	private JLabel lblSalir;
+	private JLabel lblCrearCuentaDe;
 
 	/**
 	 * Create the frame.
 	 */
 	public V_Users(Controller l) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(V_Users.class.getResource("/photos/pixelart.png")));
 		this.l = l;
+		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(600, 20, 800, 900);
+		setBounds(620, 70, 800, 900);
+		setFocusable(false);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(105,105,105));
+		contentPane.setBorder(new RoundedBorder(5));
+
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblEnter = new JLabel("INTRODUCE TU USUARIO Y CONTRASEÑA");
-		lblEnter.setBounds(276, 10, 231, 26);
-		lblEnter.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
+		JLabel lblEnter = new JLabel("INTRODUCE TU USUARIO Y CONTRASEÑA:");
+		lblEnter.setForeground(new Color(255, 255, 255));
+		lblEnter.setBounds(215, 11, 358, 37);
+		lblEnter.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
 		contentPane.add(lblEnter);
 
 		JLabel lblUser = new JLabel("USER:");
-		lblUser.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblUser.setBounds(120, 132, 46, 14);
+		lblUser.setForeground(new Color(255, 255, 255));
+		lblUser.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblUser.setBounds(120, 119, 80, 37);
 		contentPane.add(lblUser);
 
 		JLabel lblPassword = new JLabel("PASSWORD:");
-		lblPassword.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		lblPassword.setBounds(120, 202, 80, 14);
+		lblPassword.setForeground(new Color(255, 255, 255));
+		lblPassword.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblPassword.setBounds(120, 189, 105, 37);
 		contentPane.add(lblPassword);
 
-		btnEnter = new JButton("Entrar");
+		btnEnter = new JButton("");
+		btnEnter.setBackground(new Color(138, 138, 138));
 		btnEnter.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnEnter.setBounds(120, 384, 130, 26);
+		btnEnter.setBounds(97, 384, 130, 26);
+		btnEnter.setBorder(new RoundedBorder(10));
 		contentPane.add(btnEnter);
 
-		btnQuit = new JButton("Salir");
+		btnQuit = new JButton("");
+		btnQuit.setBackground(new Color(138, 138, 138));
 		btnQuit.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnQuit.setBounds(490, 384, 130, 26);
+		btnQuit.setBounds(573, 384, 130, 26);
+		btnQuit.setBorder(new RoundedBorder(10));
 		contentPane.add(btnQuit);
 
 		textFieldUser = new JTextField();
@@ -88,9 +112,11 @@ public class V_Users extends JFrame implements ActionListener {
 		textFieldPassword.setEchoChar('*');
 		contentPane.add(textFieldPassword);
 
-		btnNoticias = new JButton("Noticias");
+		btnNoticias = new JButton("");
+		btnNoticias.setBackground(new Color(138, 138, 138));
 		btnNoticias.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		btnNoticias.setBounds(310, 384, 130, 26);
+		btnNoticias.setBounds(337, 384, 130, 26);
+		btnNoticias.setBorder(new RoundedBorder(10));
 		contentPane.add(btnNoticias);
 
 		lblWrong = new JLabel("", SwingConstants.CENTER);
@@ -98,15 +124,49 @@ public class V_Users extends JFrame implements ActionListener {
 		lblWrong.setBounds(97, 672, 523, 63);
 		contentPane.add(lblWrong);
 
-		btnCreate = new JButton("Crear cuenta de usuario");
+		btnCreate = new JButton("");
+		btnCreate.setBackground(new Color(138, 138, 138));
 		btnCreate.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
 		btnCreate.setBounds(230, 528, 277, 26);
+		btnCreate.setBorder(new RoundedBorder(10));
 		contentPane.add(btnCreate);
 
-		tglbtnSee = new JToggleButton("Ver");
+		tglbtnSee = new JToggleButton("");
+		tglbtnSee.setBackground(new Color(138, 138, 138));
 		tglbtnSee.setFont(new Font("Teko SemiBold", Font.PLAIN, 17));
-		tglbtnSee.setBounds(552, 198, 121, 23);
+		tglbtnSee.setBounds(523, 196, 18, 23);
+		tglbtnSee.setBorder(new RoundedBorder(10));
 		contentPane.add(tglbtnSee);
+		
+		lblNewLabel = new JLabel("VER");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblNewLabel.setBounds(551, 191, 50, 32);
+		contentPane.add(lblNewLabel);
+		
+		lblEntrar = new JLabel("ENTRAR");
+		lblEntrar.setForeground(Color.WHITE);
+		lblEntrar.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblEntrar.setBounds(120, 347, 72, 26);
+		contentPane.add(lblEntrar);
+		
+		lblNoticias = new JLabel("NOTICIAS");
+		lblNoticias.setForeground(Color.WHITE);
+		lblNoticias.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblNoticias.setBounds(359, 347, 80, 26);
+		contentPane.add(lblNoticias);
+		
+		lblSalir = new JLabel("SALIR");
+		lblSalir.setForeground(Color.WHITE);
+		lblSalir.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblSalir.setBounds(613, 347, 50, 26);
+		contentPane.add(lblSalir);
+		
+		lblCrearCuentaDe = new JLabel("CREAR CUENTA DE USUARIO");
+		lblCrearCuentaDe.setForeground(Color.WHITE);
+		lblCrearCuentaDe.setFont(new Font("Teko SemiBold", Font.PLAIN, 25));
+		lblCrearCuentaDe.setBounds(250, 480, 246, 37);
+		contentPane.add(lblCrearCuentaDe);
 
 		btnEnter.addActionListener(this);
 		btnQuit.addActionListener(this);

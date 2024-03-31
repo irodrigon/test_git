@@ -2,7 +2,7 @@ package model;
 
 import java.sql.Blob;
 
-public class Policeman extends User{
+public class Policeman{
 	
 	private int id_policia;
 	private Blob foto_policia;
